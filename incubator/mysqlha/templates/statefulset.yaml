@@ -7,6 +7,9 @@ metadata:
     chart: "{{ template "mysqlha.chart" . }}"
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
+{{- if .Values.extraLabels }}
+{{ toYaml .Values.extraLabels | indent 4 }}
+{{- end }}
 spec:
   serviceName: {{ template "fullname" . }}
   replicas: {{ .Values.mysqlha.replicaCount }}
@@ -14,6 +17,9 @@ spec:
     metadata:
       labels:
         app: {{ template "fullname" . }}
+{{- if .Values.extraLabels }}
+{{ toYaml .Values.extraLabels | indent 8 }}
+{{- end }}
       {{- if .Values.mysqlha.podAnnotations }}
       annotations:
 {{ toYaml .Values.mysqlha.podAnnotations | indent 8 }}
